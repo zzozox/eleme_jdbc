@@ -25,20 +25,20 @@ public class BusinessDaoImpl implements BusinessDao {
 //        boolean enableName =false;
 //        boolean enableAddress=false;
         //"1=1"防备两个值都不输入
-        String sqlTemplate = "select * from business where 1=1";
-        if (businessName != null && !"".equals(businessName)) {
+        StringBuffer sqlTemplate = new StringBuffer("select * from business where 1=1");
+        if (businessName!=null&&!businessName.equals("")) {
             //模糊查询
-            sqlTemplate = sqlTemplate + "and businessName like '%'+businessName+'%'";
+            sqlTemplate.append(" and businessName like '%"+businessName+"%' ");
 //            enableName=true;
         }
-        if (businessAddress != null && !"".equals(businessAddress)) {
+        if (businessAddress!=null&&!businessAddress.equals("")) {
             //模糊查询
-            sqlTemplate = sqlTemplate + "and businessAddresslike '%'+businessAddress+'%'";
+            sqlTemplate.append(" and businessAddress like '%"+businessAddress+"%' ");
 //            enableAddress=true;
         }
         try {
             con = DBUtil.getConnection();
-            pst = con.prepareStatement(sqlTemplate);
+            pst = con.prepareStatement(sqlTemplate.toString());
 //            if(enableName&&enableAddress){
 //                pst.setString(1,businessName);
 //                pst.setString(2,businessAddress);
@@ -73,7 +73,7 @@ public class BusinessDaoImpl implements BusinessDao {
     public int saveBusiness(String businessName) {
         //保留初值,返回插入的用户的ID
         int businessId = 0;
-        String sql = "inser into business(businessName,password) values (?,'123')";
+        String sql = "insert into business(businessName,password) values (?,'123')";
         try {
             con = DBUtil.getConnection();
             //设置返回自增长列值
@@ -96,7 +96,7 @@ public class BusinessDaoImpl implements BusinessDao {
 
     @Override
     public int removeBusiness(int businessId) {
-        //为删除失败，为1删除呈贡成功
+        //为删除失败，为1删除成功
         //或者把result换成布尔型
         //boolean result=false;
         int result = 0;
